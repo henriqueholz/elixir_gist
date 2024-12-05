@@ -25,3 +25,4 @@ assets/node_modules
 priv/static/
 # ESbuild build artefacts
 priv/static/assets/
+deps/

@@ -26,3 +26,4 @@ priv/static/
 # ESbuild build artefacts
 priv/static/assets/
 deps/
+mix.lock

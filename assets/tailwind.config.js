@@ -8,20 +8,20 @@ const path = require("path")
 module.exports = {
   content: [
     "./js/**/*.js",
-    "../lib/elixir_gist_web.ex",
-    "../lib/elixir_gist_web/**/*.*ex"
+    "../lib/*_web.ex",
+    "../lib/*_web/**/*.*ex"
   ],
   theme: {
     extend: {
       colors: {
         emDark: {
           dark: "#010101",
-          DEFAULT: "#3c3b3b",
+          DEFAULT: "#3C3B3B",
           light: "#828282"
         },
         emPurple: {
           dark: "#631A61",
-          DEFAULT: "#8A34A5",
+          DEFAULT: "#A834A5",
           light: "#E88FE5"
         },
         emLavender: {
@@ -31,8 +31,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        brand: ["WorkSans", "sans-serif"]
-      },
+        brand: ["WorkSans", "sans-serif"],
+      }, 
       fontWeight: {
         regular: "normal",
         bold: "bold"

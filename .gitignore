@@ -27,3 +27,4 @@ priv/static/
 priv/static/assets/
 deps/
 mix.lock
+.DS_Store

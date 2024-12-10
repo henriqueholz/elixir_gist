@@ -5,7 +5,7 @@
     "elixirLS.fetchDeps": false,
 
     "files.associations": {
-    "*.heex": "phoenix-heex"
+    "*.heex": "elixir"
     },
 
     "[elixir]": {

@@ -58,13 +58,13 @@ form input[type="text"]:focus {
     @apply focus:outline-none focus:border-white focus:ring-0
 }
 
-.line-numbers {
+#line-numbers {
     @apply border border-white font-brand font-regular text-xs text-emDark-light bg-emDark-dark h-[300px] w-[54px] text-right overflow-hidden resize-none;
     border-right: none;
     border-top: none;
 }
 
-.line-numbers:focus {
+#line-numbers:focus {
     @apply focus:outline-none focus:border-white focus:ring-0;
 }
 
@@ -105,4 +105,11 @@ form input[type="text"]:focus {
     border-width: 3px 3px 0 3px;
     border-color: white transparent transparent transparent;
     border-style: solid;
+}
+
+.interactive-img-btn img:hover {
+    filter: brightness(80%);
+}
+.interactive-img-btn img:active {
+    transform: scale(1.1);
 }

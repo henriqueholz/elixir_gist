@@ -54,10 +54,6 @@ form input[type="text"], input[type="email"], input[type="password"]:focus {
     border-left: none;
 }
 
-.textarea:focus {
-    @apply focus:outline-none focus:border-white focus:ring-0
-}
-
 .syntax-numbers {
     @apply border border-white font-brand py-[12px] text-xs text-emDark-light bg-emSyntax h-auto w-[54px] text-right overflow-hidden resize-none;
     border-right: none;
@@ -94,7 +90,7 @@ form input[type="text"], input[type="email"], input[type="password"]:focus {
 
 .create_button:hover {
     @apply hover:bg-emPurple-dark text-emDark-light border-emDark-light
-}
+} 
 
 .round-image-padding {
     border-radius: 50%;
@@ -114,11 +110,9 @@ form input[type="text"], input[type="email"], input[type="password"]:focus {
 }
 
 .interactive-img-btn img:hover {
-    filter: brightness(80%);
     filter: brightness(80%); /* makes the image 20% darker */
 }
 
 .interactive-img-btn img:active {
-    transform: scale(1.1);
     transform: scale(1.1); /* increases the size of the image by 10% */
 }

@@ -4,20 +4,15 @@ defmodule ElixirGistWeb.GistFormComponent do
   alias ElixirGist.{Gists, Gists.Gist}
 
   def mount(socket) do
-    socket =
-      assign(
-        socket,
-        form: to_form(Gists.change_gist(%Gist{}))
-      )
-
     {:ok, socket}
   end
 
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-submit="create" phx-change="validate">
+      <.form for={@form} phx-submit="create" phx-change="validate" phx-target={@myself}>
         <div class="justify-center px-28 w-full space-y-4 mb-10">
+          <.input type="hidden" field={@form[:id]} value={@id} />
           <.input
             field={@form[:description]}
             placeholder="Gist description.."
@@ -36,24 +31,28 @@ defmodule ElixirGistWeb.GistFormComponent do
               </div>
             </div>
             <div id="gist-wrapper" class="flex w-full" phx-update="ignore">
-              <textarea id="line-numbers" class="rounded-bl-md" readonly>
-                <%= "1\n" %>
-              </textarea>
-              <textarea
-                id= "gist-textarea",
-                name="gist[markup_text]"
-                phx_hook= "UpdateLineNumbers",
-                class="textarea w-full rounded-b-md"
-                placeholder="Insert code..."
-                spellcheck="false"
-                autocomplete="off"
-                phx-debounce="blur">
-                <%= @form[:markup_text].value %>
-              </textarea>
+              <textarea id="line-numbers" class="line-numbers rounded-bl-md" readonly>
+          <%= "1\n" %>
+        </textarea>
+              <div class="flex-grow">
+                <.input
+                  type="textarea"
+                  field={@form[:markup_text]}
+                  class="textarea w-full rounded-br-md"
+                  placeholder="Insert code..."
+                  autocomplete="off"
+                  phx-debounce="blur"
+                  phx-hook="UpdateLineNumbers"
+                />
+              </div>
             </div>
           </div>
           <div class="flex justify-end">
-            <.button class="create_button" phx-disable-with="Creating...">Create gist</.button>
+            <%= if @id == :new do %>
+              <.button class="create_button" phx-disable-with="Creating...">Create gist</.button>
+            <% else %>
+              <.button class="create_button" phx-disable-with="Updating...">Update gist</.button>
+            <% end %>
           </div>
         </div>
       </.form>
@@ -71,6 +70,14 @@ defmodule ElixirGistWeb.GistFormComponent do
   end
 
   def handle_event("create", %{"gist" => params}, socket) do
+    if params["id"] == "new" do
+      create_gist(params, socket)
+    else
+      update_gist(params, socket)
+    end
+  end
+
+  defp create_gist(params, socket) do
     case Gists.create_gist(socket.assigns.current_user, params) do
       {:ok, gist} ->
         socket = push_event(socket, "clear-textareas", %{})
@@ -80,6 +87,17 @@ defmodule ElixirGistWeb.GistFormComponent do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :form, to_form(changeset))}
+    end
+  end
+
+  defp update_gist(params, socket) do
+    case Gists.update_gist(socket.assigns.current_user, params) do
+      {:ok, gist} ->
+        {:noreply, push_navigate(socket, to: ~p"/gist?#{[id: gist]}")}
+
+      {:error, message} ->
+        socket = put_flash(socket, :error, message)
+        {:noreply, socket}
     end
   end
 end
